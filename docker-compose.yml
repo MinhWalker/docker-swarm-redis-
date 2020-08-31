@@ -1,0 +1,25 @@
+version: "3.7"
+
+networks: 
+  cluster-redis:
+    driver: overlay
+
+services: 
+  redis-node:
+    image: minhwalker/redis:latest
+    ports: 
+      - 6379:6379
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300MB
+        reservations:
+          cpus: '0.25'
+          memory: 150MB
+      restart_policy:
+        condition: on-failure
+    networks: 
+      - cluster-redis
+    
